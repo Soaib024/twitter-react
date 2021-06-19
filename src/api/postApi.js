@@ -3,7 +3,7 @@ import axios from "axios";
 const { API } = require("../backend");
 axios.defaults.baseURL = API;
 
-export const postTweet = async (formData) => {
+export const postTweet = async (formData, replyTo) => {
   const token = localStorage.getItem("token");
   let response;
   try {
@@ -13,10 +13,11 @@ export const postTweet = async (formData) => {
       },
     });
   } catch (err) {
+    console.log(err)
     if(err.reponse && err.reponse.data && err.response.data.error){
       return Error(err.reponse.data.error);
     }else{
-      return {error: "Something went wrong, Please try again later"}
+      return Error("Something went wrong, Please try again later")
     }
   }
 
@@ -33,10 +34,11 @@ export const fetchTweets = async () => {
       },
     });
   } catch (err) {
+    console.log(err)
     if(err.reponse && err.reponse.data && err.response.data.error){
       return Error(err.reponse.data.error);
     }else{
-      return {error: "Something went wrong, Please try again later"}
+      return Error("Something went wrong, Please try again later")
     }
   }
 
@@ -57,10 +59,11 @@ export const like = async (postId) => {
       }
     );
   } catch (err) {
+    console.log(err)
     if(err.reponse && err.reponse.data && err.response.data.error){
       return Error(err.reponse.data.error);
     }else{
-      return {error: "Something went wrong, Please try again later"}
+      return Error("Something went wrong, Please try again later")
     }
   }
   return { ...response.data };
@@ -76,10 +79,11 @@ export const retweet = async (postId) => {
       }
     });
   }catch (err){
+    console.log(err)
     if(err.reponse && err.reponse.data && err.response.data.error){
       return Error(err.reponse.data.error);
     }else{
-      return {error: "Something went wrong, Please try again later"}
+      return Error("Something went wrong, Please try again later")
     }
   }
   return {...response.data}

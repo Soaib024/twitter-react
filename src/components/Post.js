@@ -10,6 +10,7 @@ import { timeDifference } from "../helpers/helper";
 import { useContext, useState } from "react";
 import { like, retweet } from "../api/postApi";
 import UserContext from "./../store/UserContext";
+import ModalContainer from "./ModalContainer";
 
 const { API } = require("../backend");
 
@@ -42,7 +43,7 @@ const Post = ({ post }) => {
       .catch((err) => console.log("something went wrong"));
   };
 
-  const replayHandler = () => {};
+  
 
   const divClickHandler = () => {
     console.log("div clicked");
@@ -50,7 +51,11 @@ const Post = ({ post }) => {
 
   return (
     <div key={postState._id} className="my-4" onClick={divClickHandler}>
-      {retweetUser && <p className="text-gray-400 text-xxs mb-2">retweeted by @{retweetUser.username}</p>}
+      {retweetUser && (
+        <p className="text-gray-400 text-xxs mb-2">
+          retweeted by @{retweetUser.username}
+        </p>
+      )}
       <div className="flex items-center mb-2">
         <div>
           <img
@@ -88,8 +93,9 @@ const Post = ({ post }) => {
       </div>
 
       <div className="flex justify-around text-gray-500">
-        <span className="flex items-center space-x-1" onClick={replayHandler}>
-          <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
+        <span className="flex items-center space-x-1">
+          <ModalContainer profilePic={postState.postedBy.profilePic} post={postState}></ModalContainer>
+          
         </span>
         <span
           className={`flex items-center space-x-1 ${
