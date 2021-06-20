@@ -6,24 +6,14 @@ import Modal from "react-modal";
 import TweetForm from "./TweetForm";
 import Post from "./Post";
 
-const customStyles = {
-  content: {
-    // top: "50%",
-    // left: "50%",
-    // right: "auto",
-    // bottom: "auto",
-    // marginRight: "-50%",
-    // transform: "translate(-50%, -50%)",
-    
-  },
-};
 
 Modal.setAppElement(document.getElementById("root"));
 
 function ModalContainer({ profilePic, post }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
-  function openModal() {
+  function openModal(e) {
+    e.stopPropagation()
     setIsOpen(true);
   }
 
@@ -32,20 +22,21 @@ function ModalContainer({ profilePic, post }) {
    
   }
 
-  function closeModal() {
+  function closeModal(e) {
+    e.stopPropagation()
     setIsOpen(false);
   }
 
   return (
     <div className="">
-      <p onClick={openModal}>
+      <p onClick={openModal} className="cursor-pointer">
         <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
       </p>
       <Modal
         isOpen={modalIsOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={closeModal}
-        style={customStyles}
+  
         contentLabel="Example Modal"
         className="w-full p-12 bg-white lg:w-4/12  mx-auto rounded-2xl sm:h-screen overflow-scroll shadow-2xl"
       >

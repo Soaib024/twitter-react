@@ -8,7 +8,6 @@ import { useHistory } from "react-router-dom";
 import UserContext from "../store/UserContext";
 import TweetForm from "../components/TweetForm";
 
-
 const Home = () => {
   const [posts, setPosts] = useState([]);
 
@@ -19,7 +18,7 @@ const Home = () => {
     if (!userContext.isSignedIn) {
       history.push("/");
     }
-    fetchTweets().then((res) => {
+    fetchTweets({}).then((res) => {
       if (res.posts) {
         setPosts(res.posts);
       }
@@ -32,7 +31,7 @@ const Home = () => {
   return (
     <div className="wrapper">
       <Navbar></Navbar>
-      <main className="lg:w-7/12 lg:overflow-y-scroll">
+      <main className="main">
         <div className="mb-3">
           <p className="my-3 ">Home</p>
           <TweetForm
@@ -45,9 +44,7 @@ const Home = () => {
 
         <NewsFeed posts={posts}></NewsFeed>
       </main>
-      <div className="hidden sm:hidden md:hidden lg:w-3/12  lg:h-screen lg:shadow-lg lg:ml-3 lg:pl-3">
-        &nbsp;
-      </div>
+      <div className="right-col">&nbsp;</div>
     </div>
   );
 };

@@ -1,46 +1,57 @@
-import { useRef, useState } from "react";
+import { useEffect,  useRef,  useState } from "react";
 import { postTweet } from "../api/postApi";
 import { API } from "../backend";
 
 const TweetForm = ({ profilePic, posts, setPosts, replyTo, placeholder }) => {
-  const [newPost, setNewPost] = useState({
-    content: "",
-    image: "",
-  });
+  const [tweetbuttonDisable, setTweetButtonDisabled] = useState(true);
+  const [selectedFile, setSelectedFile] = useState();
+  const [preview, setPreview] = useState();
+  const [content, setContent] = useState();
 
   const contentRef = useRef();
-  const fileRef = useRef();
 
-  const [tweetbuttonDisable, setTweetButtonDisabled] = useState(true);
+  useEffect(() => {
+    if (!selectedFile) {
+      setPreview(undefined);
+      return;
+    }
+
+    const objectUrl = URL.createObjectURL(selectedFile);
+    setPreview(objectUrl);
+
+    // free memory when ever this component is unmounted
+    return () => URL.revokeObjectURL(objectUrl);
+  }, [selectedFile]);
+
+  const imageHandler = (e) => {
+    if (!e.target.files || e.target.files.length === 0) {
+      setSelectedFile(undefined);
+      return;
+    }
+    setSelectedFile(e.target.files[0]);
+  };
 
   const textHandler = (e) => {
     const text = e.target.value.trim();
-    console.log(contentRef.current.value)
-  
     if (text.length === 0) {
       setTweetButtonDisabled(true);
     } else {
       setTweetButtonDisabled(false);
-      setNewPost({ ...newPost, content: text });
+      setContent(text)
     }
-  };
-
-  const imageHandler = (e) => {
-    console.log(fileRef.current.files[0])
-    setNewPost({ ...newPost, image: e.target.files[0] });
   };
 
   const tweetHandler = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("content", newPost.content);
-    formData.append("image", newPost.image);
+    formData.append("content", content);
+    formData.append("image", selectedFile);
     formData.append("replyTo", replyTo);
     postTweet(formData)
       .then((res) => {
-        console.log(res);
+        setSelectedFile(undefined)
+        contentRef.current.value  =""
         setPosts([res.post, ...posts]);
-        setNewPost({ ...newPost, content: "", image: "" });
         setTweetButtonDisabled(true);
       })
       .catch((err) => console.log(err));
@@ -62,9 +73,10 @@ const TweetForm = ({ profilePic, posts, setPosts, replyTo, placeholder }) => {
           className="resize-none focus:outline-none p-2 w-full overflow-hidden "
           onChange={textHandler}
           ref={contentRef}
+          
         ></textarea>
         <div className="flex justify-between items-center">
-          <div>
+          <div className="flex space-x-4">
             <label htmlFor="image-selector">
               <i className="im im-picture-o text-twitter_blue"></i>
             </label>
@@ -74,10 +86,9 @@ const TweetForm = ({ profilePic, posts, setPosts, replyTo, placeholder }) => {
               accept=".png, .jpg, .jpeg"
               onChange={imageHandler}
               className="hidden"
-              ref={fileRef}
             ></input>
+            {selectedFile &&  <img src={preview}  className="w-20 rounded-lg shadow-lg" alt="preview" /> }
           </div>
-
           <button
             className="bg-twitter_blue  disabled:bg-twitter_blue-light px-5 py-2 text-white rounded-md shadow-md "
             disabled={tweetbuttonDisable}

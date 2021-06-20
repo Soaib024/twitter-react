@@ -43,7 +43,7 @@ const Navbar = () => {
           <span className="hidden lg:inline-block">Messages</span>
         </div>
       </Link>
-      <Link to="/profile">
+      <Link to={`/profile/${userContext.user._id}`}>
         <div className="nav-container">
           <i className="im im-user-circle nav-i"></i>
           <span className="hidden lg:inline-block">Profile</span>
