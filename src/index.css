@@ -4,18 +4,15 @@
 
 @layer components {
   .wrapper {
-    @apply p-3 lg:flex lg:max-h-screen lg:overflow-hidden;
+    @apply p-4 lg:flex lg:max-h-screen lg:overflow-hidden shadow-xl;
   }
   .main {
-    @apply lg:w-7/12 lg:overflow-y-scroll;
-  }
-
-  .right-col{
-    @apply hidden lg:w-2/12;
+    @apply lg:w-7/12 scrollbar-none lg:overflow-y-scroll;
   }
   .link {
     @apply cursor-pointer hover:underline;
   }
+
 
   .input {
     @apply border rounded-md  py-3 px-5 focus:ring-2 focus:ring-twitter_blue focus:outline-none;

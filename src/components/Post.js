@@ -1,19 +1,36 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faTrashAlt } from "@fortawesome/free-regular-svg-icons";
+import {
+  faHeart,
+  faTrashAlt,
+  faComment,
+} from "@fortawesome/free-regular-svg-icons";
 
 import { faRetweet, faThumbtack } from "@fortawesome/free-solid-svg-icons";
 import { timeDifference } from "../helpers/helper";
 import { useContext, useState } from "react";
 import { like, retweet } from "../api/postApi";
 import UserContext from "./../store/UserContext";
-import ModalContainer from "./ModalContainer";
-import {  useHistory } from "react-router-dom";
+
+import { useHistory } from "react-router-dom";
+import CommentInput from "./CommentInput";
+
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const { API } = require("../backend");
 
-const Post = ({ post }) => {
+const Post = ({ post, commentLimit }) => {
+  const notify = () => toast(<div>Delete this post ? <button className="text-gray-600 link" onClick={() => console.log("del")}>Yes</button> </div>, {
+    hideProgressBar: true,
+    autoClose: 5000,
+  });
+  if (!commentLimit) {
+    commentLimit = "limit=2";
+  }
+
   const [postState, setPostState] = useState(post);
   const [retweetUser, setretweetUser] = useState(undefined);
+  const [showCommentBox, setShowCommentBox] = useState(false);
   const userContext = useContext(UserContext);
   const history = useHistory();
 
@@ -21,8 +38,6 @@ const Post = ({ post }) => {
     setretweetUser(postState.postedBy);
     setPostState(postState.retweetData);
   }
-
-  const replyTo = postState.replyTo || undefined;
 
   const likeHandler = (e) => {
     e.stopPropagation();
@@ -53,9 +68,9 @@ const Post = ({ post }) => {
     history.push(`/profile/${retweetUser._id}`);
   };
 
-  const gotoReplyUser = (e) => {
+  const toggleCommentBox = (e) => {
     e.stopPropagation();
-    history.push(`/profile/${replyTo.postedBy._id}`);
+    setShowCommentBox(!showCommentBox);
   };
 
   const gotoPostUser = (e) => {
@@ -65,8 +80,13 @@ const Post = ({ post }) => {
 
   const deleteThisPost = (e) => {
     e.stopPropagation();
+    notify();
     console.log("delete this post");
   };
+
+  const deletePost = () => {
+
+  }
 
   const pinThisPost = (e) => {
     e.stopPropagation();
@@ -83,18 +103,11 @@ const Post = ({ post }) => {
           </span>
         </p>
       )}
-      {replyTo && (
-        <p className="text-gray-400 text-xxs mb-2 ">
-          replying to{" "}
-          <span className="link" onClick={gotoReplyUser}>
-            @{replyTo.postedBy.username}
-          </span>
-        </p>
-      )}
+
       <div className="flex items-center mb-2">
         <div>
           <img
-            src={`${API}/uploads/images/profilePic/${postState.postedBy.profilePic}`}
+            src={`${API}/uploads/images/profilePic/${post.postedBy.profilePic}`}
             alt="profile"
             className="w-11 h-11 rounded-full mr-2"
           ></img>
@@ -115,17 +128,23 @@ const Post = ({ post }) => {
           </div>
 
           {postState.postedBy._id === userContext.user._id && (
-            <div className="text-gray-500 text-xs space-x-6">
-              <FontAwesomeIcon
-                icon={faTrashAlt}
-                className="cursor-pointer"
-                onClick={deleteThisPost}
-              ></FontAwesomeIcon>
-              <FontAwesomeIcon
-                icon={faThumbtack}
-                className="cursor-pointer"
-                onClick={pinThisPost}
-              ></FontAwesomeIcon>
+            <div className="text-gray-500 text-xs space-x-6 flex items-center">
+              <div className="">
+                <FontAwesomeIcon
+                  icon={faTrashAlt}
+                  className="cursor-pointer"
+                  onClick={deleteThisPost}
+                ></FontAwesomeIcon>
+                <ToastContainer />
+              </div>
+
+              <div>
+                <FontAwesomeIcon
+                  icon={faThumbtack}
+                  className="cursor-pointer"
+                  onClick={pinThisPost}
+                ></FontAwesomeIcon>
+              </div>
             </div>
           )}
         </div>
@@ -145,10 +164,9 @@ const Post = ({ post }) => {
 
       <div className="flex justify-around text-gray-500">
         <span className="flex items-center space-x-1">
-          <ModalContainer
-            profilePic={postState.postedBy.profilePic}
-            post={postState}
-          ></ModalContainer>
+          <p onClick={toggleCommentBox} className="cursor-pointer">
+            <FontAwesomeIcon icon={faComment}></FontAwesomeIcon>
+          </p>
         </span>
         <span
           className={`flex items-center space-x-1 ${
@@ -177,6 +195,14 @@ const Post = ({ post }) => {
             {postState.retweetUsers.length > 0 && postState.retweetUsers.length}
           </p>
         </span>
+      </div>
+      <div className="max-h-96 overflow-y-scroll">
+        {showCommentBox && (
+          <CommentInput
+            postId={postState._id}
+            limit={commentLimit}
+          ></CommentInput>
+        )}
       </div>
     </div>
   );

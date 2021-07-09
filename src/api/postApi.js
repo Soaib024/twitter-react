@@ -2,18 +2,16 @@ import axios from "axios";
 
 const { API } = require("../backend");
 axios.defaults.baseURL = API;
+const token = localStorage.getItem("token");
 
 export const postTweet = async (formData) => {
-  const token = localStorage.getItem("token");
+  
   let response;
 
   const hasImage = formData.get("image") !== "undefined";
   const url = `/post/${hasImage ? "withImage" : "withoutImage"}`;
-  const body = hasImage
-    ? formData
-    : { content: formData.get("content"), replyTo: formData.get("replyTo") };
+  const body = hasImage ? formData : { content: formData.get("content") };
   try {
-    console.log(formData.get("content"));
     response = await axios.post(url, body, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -31,11 +29,11 @@ export const postTweet = async (formData) => {
   return { post: response.data };
 };
 
-export const fetchTweets = async () => {
-  const token = localStorage.getItem("token");
+export const fetchTweets = async (queryString = "") => {
+  
   let response;
   try {
-    response = await axios.get("/post", {
+    response = await axios.get(`/post?${queryString}`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -50,8 +48,8 @@ export const fetchTweets = async () => {
   return { posts: response.data };
 };
 
-export const fetchPost = async (id) => {
-  const token = localStorage.getItem("token");
+export const fetchTweet = async (id) => {
+
   let response;
 
   try{
@@ -68,7 +66,7 @@ export const fetchPost = async (id) => {
 };
 
 export const like = async (postId) => {
-  const token = localStorage.getItem("token");
+
   let response;
   try {
     response = await axios.put(
@@ -92,7 +90,7 @@ export const like = async (postId) => {
 };
 
 export const retweet = async (postId) => {
-  const token = localStorage.getItem("token");
+  
   let response;
   try {
     response = await axios.post(
@@ -114,3 +112,5 @@ export const retweet = async (postId) => {
   }
   return { ...response.data };
 };
+
+

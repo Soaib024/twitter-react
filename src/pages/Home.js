@@ -7,7 +7,7 @@ import NewsFeed from "../components/NewsFeed";
 import { useHistory } from "react-router-dom";
 import UserContext from "../store/UserContext";
 import TweetForm from "../components/TweetForm";
-
+import Sidebar from "../components/Sidebar";
 const Home = () => {
   const [posts, setPosts] = useState([]);
 
@@ -31,7 +31,7 @@ const Home = () => {
   return (
     <div className="wrapper">
       <Navbar></Navbar>
-      <main className="main">
+      <main className="main ">
         <div className="mb-3">
           <p className="my-3 ">Home</p>
           <TweetForm
@@ -44,7 +44,7 @@ const Home = () => {
 
         <NewsFeed posts={posts}></NewsFeed>
       </main>
-      <div className="right-col">&nbsp;</div>
+      <Sidebar></Sidebar>
     </div>
   );
 };

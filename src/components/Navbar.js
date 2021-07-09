@@ -8,6 +8,8 @@ const Navbar = () => {
 
   const signoutHandler = () => {
     userContext.signOut();
+    localStorage.removeItem("token")
+    localStorage.removeItem("user")
     history.push("/");
   };
   return (

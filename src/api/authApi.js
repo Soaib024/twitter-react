@@ -10,6 +10,7 @@ export const login = async (payload) => {
       return { token: response.data.token, user: response.data.user };
     }
   } catch (err) {
+    console.log(err)
     console.log(err.response.data.error);
     return { error: err.response.data.error };
   }
