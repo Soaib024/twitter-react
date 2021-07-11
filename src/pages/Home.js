@@ -18,7 +18,7 @@ const Home = () => {
     if (!userContext.isSignedIn) {
       history.push("/");
     }
-    fetchTweets({}).then((res) => {
+    fetchTweets({dummy: "dummy"}).then((res) => {
       if (res.posts) {
         setPosts(res.posts);
       }

@@ -2,10 +2,10 @@ import axios from "axios";
 
 const { API } = require("../backend");
 axios.defaults.baseURL = API;
-const token = localStorage.getItem("token");
+
 
 export const search = async (type, pattern) => {
-  console.log(type, pattern)
+  const token = localStorage.getItem("token");
   try {
     const response = await axios.get("search", {
       headers: {

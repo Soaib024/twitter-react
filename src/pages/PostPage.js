@@ -14,7 +14,6 @@ const PostPage = () => {
   useEffect(() => {
     fetchTweet(postId)
     .then(res => {
-      console.log(res)
       setPost(res)
     })
   },[])

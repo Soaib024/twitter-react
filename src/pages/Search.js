@@ -36,7 +36,7 @@ const Search = () => {
               name=""
               id=""
               onChange={searchTextHandler}
-              className="border-2  mt-4 p-2 w-11/12 rounded-full focus:outline-none"
+              className="border-2  mt-4 p-2 w-full rounded-full focus:outline-none"
               placeholder="Search for post or user"
             />
           </div>

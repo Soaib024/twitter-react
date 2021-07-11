@@ -28,7 +28,7 @@ const ProfilePage = () => {
       .then((res) => {
           loggedInUser.reInitUser(res);
           setIsFollowing(!isFollowing);
-          setUser(res)
+          //setUser(res)
       })
       .catch(err => console.error(err))
   }
@@ -58,7 +58,7 @@ const ProfilePage = () => {
                   </p>
                 </div>
                 {loggedInUser.user._id !== userId && (
-                  <button className="text-white bg-twitter_blue rounded-xl px-6 py-3 border-none text-xl focus:outline-none mr-6" onClick={followButtonHandler}>
+                  <button className="text-white bg-twitter_blue rounded-xl px-4 py-2 border-none text-xl focus:outline-none mr-6" onClick={followButtonHandler}>
                     {isFollowing ? "following" : "follow"}
                   </button>
                 )}

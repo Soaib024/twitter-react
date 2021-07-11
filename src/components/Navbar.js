@@ -13,7 +13,7 @@ const Navbar = () => {
     history.push("/");
   };
   return (
-    <nav className="flex shadow-lg rounded-xl justify-between lg:flex-col lg:justify-start lg:w-2/12 lg:h-screen lg:mr-3 lg:pr-3">
+    <nav className="flex shadow-lg rounded-xl justify-between bg-white lg:flex-col lg:justify-start lg:w-2/12  lg:mr-3 lg:pr-3 ">
       <Link to="/home">
         <i className="im im-twitter text-twitter_blue nav-i"></i>
       </Link>
@@ -39,7 +39,7 @@ const Navbar = () => {
         </div>
       </Link>
 
-      <Link to="/messages">
+      <Link to="/chats">
         <div className="nav-container">
           <i className="im im-mail nav-i"></i>
           <span className="hidden lg:inline-block">Messages</span>

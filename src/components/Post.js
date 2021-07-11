@@ -7,8 +7,8 @@ import {
 
 import { faRetweet, faThumbtack } from "@fortawesome/free-solid-svg-icons";
 import { timeDifference } from "../helpers/helper";
-import { useContext, useState } from "react";
-import { like, retweet } from "../api/postApi";
+import { useContext, useEffect, useState } from "react";
+import { deleteTweet, like, retweet } from "../api/postApi";
 import UserContext from "./../store/UserContext";
 
 import { useHistory } from "react-router-dom";
@@ -20,19 +20,37 @@ import "react-toastify/dist/ReactToastify.css";
 const { API } = require("../backend");
 
 const Post = ({ post, commentLimit }) => {
-  const notify = () => toast(<div>Delete this post ? <button className="text-gray-600 link" onClick={() => console.log("del")}>Yes</button> </div>, {
-    hideProgressBar: true,
-    autoClose: 5000,
-  });
-  if (!commentLimit) {
-    commentLimit = "limit=2";
-  }
-
   const [postState, setPostState] = useState(post);
   const [retweetUser, setretweetUser] = useState(undefined);
   const [showCommentBox, setShowCommentBox] = useState(false);
+  const [deleted, setDeleted] = useState(false);
   const userContext = useContext(UserContext);
   const history = useHistory();
+
+  const deleteConfirmationToast = () =>
+    toast(
+      <div>
+        Delete this tweet ?{" "}
+        <button
+          className="text-gray-600 link"
+          onClick={() => {
+            setDeleted(true)
+            deleteTweet(post._id)
+            history.push('/home')
+            
+          }}
+        >
+          Yes
+        </button>{" "}
+      </div>,
+      {
+        hideProgressBar: true,
+        autoClose: false,
+      }
+    );
+  if (!commentLimit) {
+    commentLimit = "limit=2";
+  }
 
   if (postState.retweetData) {
     setretweetUser(postState.postedBy);
@@ -80,20 +98,21 @@ const Post = ({ post, commentLimit }) => {
 
   const deleteThisPost = (e) => {
     e.stopPropagation();
-    notify();
-    console.log("delete this post");
+    toast.dismiss();
+    deleteConfirmationToast();
+    
   };
-
-  const deletePost = () => {
-
-  }
 
   const pinThisPost = (e) => {
     e.stopPropagation();
     console.log("Pin this post");
   };
 
+  // useEffect(() => ,[deleted]);
+  
+
   return (
+
     <div key={postState._id} className="my-4" onClick={divClickHandler}>
       {retweetUser && (
         <p className="text-gray-400 text-xxs mb-2 ">

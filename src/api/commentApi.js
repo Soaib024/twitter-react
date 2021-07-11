@@ -3,9 +3,10 @@ import axios from "axios";
 const { API } = require("../backend");
 axios.defaults.baseURL = API;
 
-const token = localStorage.getItem("token");
+
 
 export const sendComment = async (postId, comment) => {
+    
     const token = localStorage.getItem("token");
     try{
     return  (await axios.post(`/comment/${postId}`,{comment}, {headers: {Authorization: `Bearer ${token}`}})).data
