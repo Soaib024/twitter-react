@@ -1,16 +1,16 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import News from "./News";
+import { API } from './../backend';
 
-require("dotenv").config();
 
-const API_KEY = process.env.REACT_APP_NEWS_API;
 const Sidebar = () => {
   const [news, setNews] = useState([]);
   useEffect(() => {
     axios
-      .get(`https://newsapi.org/v2/top-headlines?country=in&apiKey=841f2885c75f494f81a7cda0ac1c1f80`)
-      .then((res) => setNews(res.data.articles));
+      .get(`${API}/news`)
+      .then((res) => setNews(JSON.parse(res.data)))
+      .catch(err => console.log(err))
   }, []);
   return (
     <div className="hidden lg:ml-3 lg:r-3 lg:w-3/12 lg:block scrollbar-none overflow-scroll bg-white shadow-lg rounded-lg p-2">
