@@ -29,8 +29,8 @@ const Search = () => {
       <Navbar></Navbar>
       <main className="main">
         <div>
-          <p className="text-center mt-4">Search</p>
-          <div className="w-full flex justify-center">
+          <p className=" p-2 mt-4">Search</p>
+          <div className="w-full flex p-2 justify-center">
             <input
               type="text"
               name=""

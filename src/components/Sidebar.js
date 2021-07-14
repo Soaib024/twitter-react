@@ -1,11 +1,28 @@
-import React from 'react'
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+import News from "./News";
 
+require("dotenv").config();
+
+const API_KEY = process.env.REACT_APP_NEWS_API;
 const Sidebar = () => {
-    return (
-        <div className="hidden bg-red-200 p-2 text-red pl-3 rounded-xl lg:ml-3 lg:r-3 lg:w-3/12 lg:block ">
-            <h1>Sidebar</h1>
-        </div>
-    )
-}
+  const [news, setNews] = useState([]);
+  useEffect(() => {
+    axios
+      .get(`https://newsapi.org/v2/top-headlines?country=in&apiKey=${API_KEY}`)
+      .then((res) => setNews(res.data.articles));
+  }, []);
+  return (
+    <div className="hidden lg:ml-3 lg:r-3 lg:w-3/12 lg:block scrollbar-none overflow-scroll bg-white shadow-lg rounded-lg p-2">
+      <div className="">
+        <p className="text-lg text-gray-700 py-2 font-bold">What’s happening</p>
+        {news.map((n, index) => (
+          <News key={index} newsObj={n}></News>
+        ))}
+      </div>
 
-export default Sidebar
+    </div>
+  );
+};
+
+export default Sidebar;

@@ -2,14 +2,16 @@ import { useReducer } from "react";
 import UserContext from "./UserContext";
 
 const defaultUser = {
-  token: "",
-  user: {},
-  isSignedIn: false,
+  token: localStorage.getItem("token") || null,
+  user: JSON.parse(localStorage.getItem("user")) || {},
+  isSignedIn: localStorage.getItem("token") ? true : false,
   signIn: (token, user) => {},
   signOut: () => {},
   reInitUser: (user) => {}
 
 };
+
+
 
 const getNewState = (state, token, user, isSignedIn) => {
   const newState = { ...state };

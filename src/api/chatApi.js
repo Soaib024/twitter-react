@@ -3,22 +3,20 @@ import axios from "axios";
 const { API } = require("../backend");
 axios.defaults.baseURL = API;
 
-export const createChat = (members) => {
+export const createChat = async (members, currentUsername) => {
   const token = localStorage.getItem("token");
-  let chatName = "";
+  let tempName = "";
   for (let i = 0; i < members.length; i++) {
-    chatName += members[i].name;
-    if (i + 1 < members.length) {
-      chatName += ",";
-    }
+    tempName += members[i].name +', ';
   }
+  tempName += currentUsername
 
-  axios.post(
+  const results = await axios.post(
     "/chat",
     {
       users: members.map((member) => member._id),
       isGroupChat: members.length > 1,
-      chatName: chatName,
+      chatName: tempName,
     },
     {
       headers: {
@@ -26,6 +24,7 @@ export const createChat = (members) => {
       },
     }
   );
+  return results.data;
 };
 
 export const getChats = async () => {
@@ -61,6 +60,27 @@ export const sendMessage = async (chat, content) => {
 
 export const fetchMessages = async (chatId) => {
   const token = localStorage.getItem("token");
-  const results = await axios.get(`/message/${chatId}`, {headers: {Authorization: `Bearer ${token}`}})
+  const results = await axios.get(`/message/${chatId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
   return results.data;
-}
+};
+
+export const markAsRead = async (messageId) => {
+  const token = localStorage.getItem("token");
+  await axios.put(
+    `/message/${messageId}`,
+    {},
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+};
+
+export const changeChatName = async (chatId, name) => {
+  const token = localStorage.getItem("token");
+  const newName = await axios.put(
+    `/chat/${chatId}`,
+    { name },
+    { headers: { Authorization: `Bearer ${token}` } }
+  );
+  return newName.data;
+};

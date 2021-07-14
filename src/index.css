@@ -4,10 +4,10 @@
 
 @layer components {
   .wrapper {
-    @apply flex flex-col space-y-2 lg:flex-row h-screen lg:overflow-hidden shadow-xl bg-gray-50;
+    @apply flex flex-col p-2 h-screen overflow-hidden shadow-xl bg-gray-50 lg:flex-row ;
   }
   .main {
-    @apply lg:w-7/12 scrollbar-none lg:overflow-y-scroll rounded-xl shadow-xl pb-2 bg-white;
+    @apply lg:w-7/12 scrollbar-none overflow-y-scroll mt-4 lg:mt-0 rounded-xl shadow-xl pb-2 bg-white;
   }
   .link {
     @apply cursor-pointer hover:underline;
@@ -23,7 +23,7 @@
   }
 
   .nav-i {
-    @apply p-4;
+    @apply p-2 md:p-3 lg:p-4;
   }
 
   .nav-container {

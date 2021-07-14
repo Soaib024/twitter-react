@@ -1,9 +1,10 @@
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import { search } from "../api/searchApi";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { createChat } from "./../api/chatApi";
 import { useHistory } from "react-router-dom";
+import UserContext from "./../store/UserContext";
 const { API } = require("../backend");
 
 const CreateNewChat = () => {
@@ -11,6 +12,7 @@ const CreateNewChat = () => {
   const [text, setText] = useState("");
   const [results, setResults] = useState([]);
   const history = useHistory();
+  const userLoggedIn = useContext(UserContext);
 
   const onchangeHandler = (e) => {
     setText(e.target.value);
@@ -42,16 +44,16 @@ const CreateNewChat = () => {
       }
     }, 1000);
     return () => clearTimeout(timer);
-  }, [text]);
+  }, [text, members]);
 
   return (
     <div className="wrapper">
       <Navbar></Navbar>
-      <main className="main ">
-        <div className="border-b py-2 flex items-center text-lg">
+      <main className="main">
+        <div className="border-b p-2 flex items-center text-lg">
           <p>New Message</p>
         </div>
-        <div className="border-b flex  py-2 items-center">
+        <div className="border-b flex  p-2 items-center">
           <p className="mr-2">To:</p>
           <div className="flex mr-2">
             {members.map((member) => (
@@ -71,7 +73,7 @@ const CreateNewChat = () => {
             value={text}
           />
         </div>
-        <div>
+        <div className="px-2">
           {results.map((user) => (
             <div
               className="flex items-center space-x-4 cursor-pointer mt-3"
@@ -80,7 +82,7 @@ const CreateNewChat = () => {
             >
               <div>
                 <img
-                  src={`${API}/uploads/images/profilePic/${user.profilePic}`}
+                  src={`${API}/uploads/images/profile/${user.profile}`}
                   alt="profile"
                   className="w-10 rounded-full"
                 />
@@ -101,8 +103,8 @@ const CreateNewChat = () => {
             }`}
             disabled={members.length === 0}
             onClick={() => {
-              createChat(members);
-              history.push("/chats");
+              createChat(members, userLoggedIn.user.name).then((result) => history.push(`/messages/${result._id}`));
+              
             }}
           >
             Create chat

@@ -3,7 +3,7 @@ import { createContext } from "react";
 const UserContext = createContext({
   token: "",
   user: {},
-  isSignedin: false,
+  isSignedIn: false,
   signIn: (user) => {},
   signOut: () => {},
   updateUser: () => {},

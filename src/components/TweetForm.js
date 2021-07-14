@@ -2,7 +2,7 @@ import { useEffect,  useRef,  useState } from "react";
 import { postTweet } from "../api/postApi";
 import { API } from "../backend";
 
-const TweetForm = ({ profilePic, posts, setPosts, replyTo, placeholder }) => {
+const TweetForm = ({ profile, posts, setPosts, replyTo, placeholder }) => {
   const [tweetbuttonDisable, setTweetButtonDisabled] = useState(true);
   const [selectedFile, setSelectedFile] = useState();
   const [preview, setPreview] = useState();
@@ -59,7 +59,7 @@ const TweetForm = ({ profilePic, posts, setPosts, replyTo, placeholder }) => {
   return (
     <div className="flex space-x-2 shadow-lg p-2 w-full rounded-xl">
       <img
-        src={`${API}/uploads/images/profilePic/${profilePic}`}
+        src={`${API}/uploads/images/profile/${profile}`}
         alt="profile"
         className="rounded-full w-12 h-12"
       />

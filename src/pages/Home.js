@@ -12,13 +12,12 @@ const Home = () => {
   const [posts, setPosts] = useState([]);
 
   const userContext = useContext(UserContext);
+
   const history = useHistory();
 
+
   useEffect(() => {
-    if (!userContext.isSignedIn) {
-      history.push("/");
-    }
-    fetchTweets({dummy: "dummy"}).then((res) => {
+    fetchTweets('followingOnly=true').then((res) => {
       if (res.posts) {
         setPosts(res.posts);
       }
@@ -28,14 +27,15 @@ const Home = () => {
     };
   }, []);
 
+
   return (
     <div className="wrapper">
       <Navbar></Navbar>
-      <main className="main ">
-        <div className="mb-3">
+      <main className="main">
+        <div className="mb-3 px-2">
           <p className="my-3 ">Home</p>
           <TweetForm
-            profilePic={userContext.user.profilePic}
+            profile={userContext.user.profile}
             posts={posts}
             setPosts={setPosts}
             placeholder="What's happening?"

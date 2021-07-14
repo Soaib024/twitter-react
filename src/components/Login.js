@@ -53,7 +53,7 @@ const Login = () => {
           placeholder="Password"
           name="password"
           onChange={onPasswordChange}
-         
+         value={2054314}
         ></input>
         <button className="form-button w-full">Login</button>
       </form>

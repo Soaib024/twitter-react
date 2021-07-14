@@ -2,7 +2,7 @@ import Post from "./Post";
 import User from "./User";
 const SearchResult = ({ results, tab }) => {
   return (
-    <div className="mt-4">
+    <div className="mt-4 p-2">
       {Array.isArray(results) &&
         results.map((result) =>
           tab === "post" ? (

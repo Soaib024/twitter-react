@@ -1,23 +1,32 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import FollowUnfollowButton from "./FollowUnfollowButton";
+import UserContext from "./../store/UserContext";
 const { API } = require("../backend");
 
-const User = ({ user }) => {
+const User = ({ user, small }) => {
+  const userContext = useContext(UserContext);
   return (
     <Link to={`/profile/${user._id}`}>
       {user && (
-        <div className="flex items-center space-x-4 cursor-pointer mt-3">
-          <div>
-            <img
-              src={`${API}/uploads/images/profilePic/${user.profilePic}`}
-              alt="profile"
-              className="w-12 rounded-full"
-            />
+        <div className={`flex items-center justify-between space-x-4 cursor-pointer mt-3 ${small && 'text-xs font-medium'}`}>
+          <div className="flex space-x-4 items-center">
+            <div>
+              <img
+                src={`${API}/uploads/images/profile/${user.profile}`}
+                alt="profile"
+                className={`rounded-full ${small ? 'w-8' : 'w-12'}`}
+              />
+            </div>
+            <div className={`space-x-1 ${small && 'flex flex-col'}`}>
+              <span>{user.name}</span>
+              <span className="text-gray-400">@{user.username}</span>
+            </div>
           </div>
-          <div className="space-x-1">
-            <span>{user.name}</span>
-            <span>@{user.username}</span>
-          </div>
+          <FollowUnfollowButton
+            loggedInUser={userContext}
+            profileUserId={user._id}
+          ></FollowUnfollowButton>
         </div>
       )}
     </Link>

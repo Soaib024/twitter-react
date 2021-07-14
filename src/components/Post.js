@@ -7,7 +7,7 @@ import {
 
 import { faRetweet, faThumbtack } from "@fortawesome/free-solid-svg-icons";
 import { timeDifference } from "../helpers/helper";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { deleteTweet, like, retweet } from "../api/postApi";
 import UserContext from "./../store/UserContext";
 
@@ -16,6 +16,8 @@ import CommentInput from "./CommentInput";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { pinTweet } from "../api/userApi";
+
 
 const { API } = require("../backend");
 
@@ -23,21 +25,21 @@ const Post = ({ post, commentLimit }) => {
   const [postState, setPostState] = useState(post);
   const [retweetUser, setretweetUser] = useState(undefined);
   const [showCommentBox, setShowCommentBox] = useState(false);
-  const [deleted, setDeleted] = useState(false);
   const userContext = useContext(UserContext);
   const history = useHistory();
 
+  const isOwnTweet = postState.postedBy._id === userContext.user._id;
   const deleteConfirmationToast = () =>
     toast(
       <div>
         Delete this tweet ?{" "}
         <button
           className="text-gray-600 link"
-          onClick={() => {
-            setDeleted(true)
-            deleteTweet(post._id)
-            history.push('/home')
-            
+          onClick={async () => {
+            deleteTweet(post._id);
+            setTimeout(() => {
+              history.push("/home");
+            }, 2000);
           }}
         >
           Yes
@@ -77,7 +79,8 @@ const Post = ({ post, commentLimit }) => {
       .catch((err) => console.log("something went wrong"));
   };
 
-  const divClickHandler = () => {
+  const divClickHandler = (e) => {
+    e.stopPropagation();
     history.push(`/post/${postState._id}`);
   };
 
@@ -100,20 +103,23 @@ const Post = ({ post, commentLimit }) => {
     e.stopPropagation();
     toast.dismiss();
     deleteConfirmationToast();
-    
   };
+
 
   const pinThisPost = (e) => {
     e.stopPropagation();
+    pinTweet(post._id)
+    .then((pinnedPost) => {
+      const updatedUser = {...userContext.user};
+      updatedUser.pinnedPost = pinnedPost
+      userContext.reInitUser(updatedUser)
+      console.log(userContext)
+    })
     console.log("Pin this post");
   };
 
-  // useEffect(() => ,[deleted]);
-  
-
   return (
-
-    <div key={postState._id} className="my-4" onClick={divClickHandler}>
+    <div key={postState._id} className="p-2 mt-8" onClick={divClickHandler}>
       {retweetUser && (
         <p className="text-gray-400 text-xxs mb-2 ">
           retweeted by{" "}
@@ -126,7 +132,7 @@ const Post = ({ post, commentLimit }) => {
       <div className="flex items-center mb-2">
         <div>
           <img
-            src={`${API}/uploads/images/profilePic/${post.postedBy.profilePic}`}
+            src={`${API}/uploads/images/profile/${postState.postedBy.profile}`}
             alt="profile"
             className="w-11 h-11 rounded-full mr-2"
           ></img>
@@ -146,7 +152,7 @@ const Post = ({ post, commentLimit }) => {
             </span>
           </div>
 
-          {postState.postedBy._id === userContext.user._id && (
+          {isOwnTweet && (
             <div className="text-gray-500 text-xs space-x-6 flex items-center">
               <div className="">
                 <FontAwesomeIcon
@@ -157,13 +163,15 @@ const Post = ({ post, commentLimit }) => {
                 <ToastContainer />
               </div>
 
-              <div>
-                <FontAwesomeIcon
-                  icon={faThumbtack}
-                  className="cursor-pointer"
-                  onClick={pinThisPost}
-                ></FontAwesomeIcon>
-              </div>
+              {isOwnTweet && (
+                <div>
+                  <FontAwesomeIcon
+                    icon={faThumbtack}
+                    className={`cursor-pointer ${userContext.user.pinnedPost === post._id && 'text-red-400'}`}
+                    onClick={pinThisPost}
+                  ></FontAwesomeIcon>
+                </div>
+              )}
             </div>
           )}
         </div>

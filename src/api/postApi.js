@@ -117,13 +117,15 @@ export const retweet = async (postId) => {
 export const deleteTweet = async (tweetId) => {
   const token = localStorage.getItem("token");
   try{
-    await axios.delete(`/post/${tweetId}`, {
+    const res = await axios.delete(`/post/${tweetId}`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
     })
+    return res
   }catch(err){
     console.log(err);
     return Error(err);
   }
 }
+
