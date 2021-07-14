@@ -7,7 +7,7 @@ const Comment = ({ comment }) => {
     <div className="flex my-4">
       <div className=" mr-4 w-2/12 sm:w-1/12">
         <img
-          src={`${API}/uploads/images/profile/${comment.user.profile}`}
+          src={`${API}/images/profile/${comment.user.profile}`}
           alt="profile"
           className="rounded-full w-10"
         />

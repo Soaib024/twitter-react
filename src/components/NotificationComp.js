@@ -32,7 +32,7 @@ const NotificationComp = ({ notification }) => {
       }}
     >
       <img
-        src={`${API}/uploads/images/profile/${notification.userFrom.profile}`}
+        src={`${API}/images/profile/${notification.userFrom.profile}`}
         alt=""
         className="w-10 rounded-full"
       />

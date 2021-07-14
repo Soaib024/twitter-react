@@ -11,7 +11,7 @@ const Chat = ({ chat, userLoggedIn }) => {
     chatImage = (
       <div className="w-12 h-12 mr-8">
         <img
-          src={`${API}/uploads/images/profile/${chat.users[0].profile}`}
+          src={`${API}/images/profile/${chat.users[0].profile}`}
           alt="profile"
           className="rounded-full w-10 p-1"
         ></img>
@@ -21,12 +21,12 @@ const Chat = ({ chat, userLoggedIn }) => {
     chatImage = (
       <div className="relative w-12 h-12 mr-8">
         <img
-          src={`${API}/uploads/images/profile/${chat.users[0].profile}`}
+          src={`${API}/images/profile/${chat.users[0].profile}`}
           alt="profile"
           className="rounded-full w-10 p-1 z-10 absolute top-3"
         ></img>
         <img
-          src={`${API}/uploads/images/profile/${chat.users[1].profile}`}
+          src={`${API}/images/profile/${chat.users[1].profile}`}
           alt="profile"
           className="rounded-full w-10 p-1 absolute left-3 top-1"
         ></img>

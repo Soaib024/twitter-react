@@ -60,7 +60,7 @@ const MessagePage = () => {
     <div className="flex space-x-1 relative">
       {chat.users.length > 1 && (
         <img
-          src={`${API}/uploads/images/profile/${chat.users[0].profile}`}
+          src={`${API}/images/profile/${chat.users[0].profile}`}
           alt="profile"
           className="rounded-full w-9"
         ></img>
@@ -68,7 +68,7 @@ const MessagePage = () => {
 
       {chat.users.length > 2 && (
         <img
-          src={`${API}/uploads/images/profile/${chat.users[1].profile}`}
+          src={`${API}/images/profile/${chat.users[1].profile}`}
           alt="profile"
           className="rounded-full w-9 absolute left-4"
         ></img>
@@ -76,7 +76,7 @@ const MessagePage = () => {
 
       {chat.users.length > 3 && (
         <img
-          src={`${API}/uploads/images/profile/${chat.users[2].profile}`}
+          src={`${API}/images/profile/${chat.users[2].profile}`}
           alt="profile"
           className="rounded-full w-9 absolute left-8"
         ></img>
@@ -120,6 +120,7 @@ const MessagePage = () => {
             <div ref={scrollRef}>
               <Message
                 message={message}
+                key={message._id}
                 loggedInUser={loggedInUser.user._id}
               ></Message>
             </div>

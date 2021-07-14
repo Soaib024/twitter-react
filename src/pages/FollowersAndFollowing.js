@@ -10,7 +10,6 @@ const FollowersAndFollowing = () => {
   const [user, setUser] = useState(null);
   const [tab, setTab] = useState("following");
   useEffect(() => {
-    console.log(userId);
     fetchProfile(userId).then((result) => setUser(result.user));
   }, [userId]);
   

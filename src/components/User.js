@@ -13,7 +13,7 @@ const User = ({ user, small }) => {
           <div className="flex space-x-4 items-center">
             <div>
               <img
-                src={`${API}/uploads/images/profile/${user.profile}`}
+                src={`${API}/images/profile/${user.profile}`}
                 alt="profile"
                 className={`rounded-full ${small ? 'w-8' : 'w-12'}`}
               />

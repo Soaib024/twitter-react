@@ -37,8 +37,7 @@ const ProfilePage = () => {
       fetchTweet(loggedInUser.user.pinnedPost).then((res) =>
         setPinnedPost(res)
       );
-  }, [loggedInUser, pinnedPost]);
-  console.log(pinnedPost);
+  }, []);
 
   const followButtonHandler = (e) => {
     followUnfollow(userId)
@@ -65,7 +64,7 @@ const ProfilePage = () => {
               <div className=" absolute w-full h-full">
                 {user.cover && (
                   <img
-                    src={`${API}/uploads/images/cover/${user.cover}`}
+                    src={`${API}/images/cover/${user.cover}`}
                     alt="cover"
                     className=" h-52 w-full object-cover"
                   />
@@ -88,7 +87,7 @@ const ProfilePage = () => {
             {/* Profile image container */}
             <div className="relative -top-14 left-7">
               <img
-                src={`${API}/uploads/images/profile/${user.profile}`}
+                src={`${API}/images/profile/${user.profile}`}
                 alt=""
                 className="w-28 rounded-full border-4 border-white z-10"
               />

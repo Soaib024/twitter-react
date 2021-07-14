@@ -132,7 +132,7 @@ const Post = ({ post, commentLimit }) => {
       <div className="flex items-center mb-2">
         <div>
           <img
-            src={`${API}/uploads/images/profile/${postState.postedBy.profile}`}
+            src={`${API}/images/profile/${postState.postedBy.profile}`}
             alt="profile"
             className="w-11 h-11 rounded-full mr-2"
           ></img>
@@ -181,7 +181,7 @@ const Post = ({ post, commentLimit }) => {
         <p className="font-thin ml-3">{postState.content}</p>
         {postState.postImage && (
           <img
-            src={`${API}/uploads/images/posts/${postState.postImage}`}
+            src={`${API}/images/posts/${postState.postImage}`}
             alt="postState"
             className="w-full rounded-lg shadow-lg object-cover"
             loading="lazy"

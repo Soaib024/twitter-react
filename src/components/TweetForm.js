@@ -59,7 +59,7 @@ const TweetForm = ({ profile, posts, setPosts, replyTo, placeholder }) => {
   return (
     <div className="flex space-x-2 shadow-lg p-2 w-full rounded-xl">
       <img
-        src={`${API}/uploads/images/profile/${profile}`}
+        src={`${API}/images/profile/${profile}`}
         alt="profile"
         className="rounded-full w-12 h-12"
       />

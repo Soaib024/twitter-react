@@ -82,7 +82,7 @@ const CreateNewChat = () => {
             >
               <div>
                 <img
-                  src={`${API}/uploads/images/profile/${user.profile}`}
+                  src={`${API}/images/profile/${user.profile}`}
                   alt="profile"
                   className="w-10 rounded-full"
                 />
