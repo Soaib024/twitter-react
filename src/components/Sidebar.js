@@ -9,7 +9,7 @@ const Sidebar = () => {
   const [news, setNews] = useState([]);
   useEffect(() => {
     axios
-      .get(`https://newsapi.org/v2/top-headlines?country=in&apiKey=${API_KEY}`)
+      .get(`https://newsapi.org/v2/top-headlines?country=in&apiKey=841f2885c75f494f81a7cda0ac1c1f80`)
       .then((res) => setNews(res.data.articles));
   }, []);
   return (
