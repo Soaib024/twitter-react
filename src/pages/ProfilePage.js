@@ -39,6 +39,7 @@ const ProfilePage = () => {
       );
   }, []);
 
+
   const followButtonHandler = (e) => {
     followUnfollow(userId)
       .then((res) => {
@@ -138,6 +139,8 @@ const ProfilePage = () => {
           </div>
         )}
         {pinnedPost && <Post post={pinnedPost}></Post>}
+
+        {/* Posts and like of users */}
         <UserPosts userId={userId}></UserPosts>
       </main>
       <Sidebar></Sidebar>
