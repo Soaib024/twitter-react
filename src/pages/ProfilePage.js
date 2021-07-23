@@ -34,9 +34,9 @@ const ProfilePage = () => {
 
   useEffect(() => {
     loggedInUser.user.pinnedPost &&
-      fetchTweet(loggedInUser.user.pinnedPost).then((res) =>
+      fetchTweet(loggedInUser.user.pinnedPost).then((res) =>{
         setPinnedPost(res)
-      );
+      });
   }, []);
 
 
@@ -138,7 +138,7 @@ const ProfilePage = () => {
             )}
           </div>
         )}
-        {pinnedPost && <Post post={pinnedPost}></Post>}
+        {ownProfilPage && (pinnedPost && <Post post={pinnedPost}></Post>)}
 
         {/* Posts and like of users */}
         <UserPosts userId={userId}></UserPosts>

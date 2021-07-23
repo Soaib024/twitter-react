@@ -7,7 +7,7 @@
     @apply flex flex-col p-2 h-screen overflow-hidden shadow-xl bg-gray-50 lg:flex-row ;
   }
   .main {
-    @apply lg:w-7/12 scrollbar-none overflow-y-scroll mt-4 lg:mt-0 rounded-xl shadow-xl pb-2 bg-white;
+    @apply lg:w-6/12 scrollbar-none overflow-y-scroll mt-4 lg:mt-0 rounded-xl shadow-xl pb-2 bg-white;
   }
   .link {
     @apply cursor-pointer hover:underline;
